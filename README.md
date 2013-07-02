@@ -10,20 +10,20 @@ Usage
 Just add `temploo.js` into your HTML document.
 
 ```html
-    <script id="test1" type="text/template">
-        <div id="<%=this.id%>">
-            <% for(var i = 0; i < 10; i++) { %>
-                <i id="id<%=i%>">HELLO</i>
-            <% } %>
-        </div>
-    </script>
+<script id="test1" type="text/template">
+    <div id="<%=this.id%>">
+        <% for(var i = 0; i < 10; i++) { %>
+            <i id="id<%=i%>">HELLO</i>
+        <% } %>
+    </div>
+</script>
 
-	<script type="text/javascript" src="js/temploo-0.0.1.js"></script>
-    <script type="text/javascript">
-        var templateStr = document.getElementById("test1").innerHTML;
-        var test = temploo(templateStr);
-        console.log(test({id: 10, i:3}));
-    </script>
+<script type="text/javascript" src="js/temploo-0.0.1.js"></script>
+<script type="text/javascript">
+    var templateStr = document.getElementById("test1").innerHTML;
+    var test = temploo(templateStr);
+    console.log(test({id: 10, i:3}));
+</script>
 ```
 
 There are only 2 things to remember.
@@ -33,8 +33,10 @@ There are only 2 things to remember.
 2: Use `<%=… %>` to request for printing the value to template. as an example, `<%=this.id%>`. and use `<% .. %>` for your `javascript` statements. For example
 
 ```js
-    <% for(var i=0; i < 10; i++) { %> HELLO <% } %>
+<% for(var i=0; i < 10; i++) { %> HELLO <% } %>
 ```
+
+
 
 Happy Templating. :)
 
