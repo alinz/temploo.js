@@ -1,31 +1,55 @@
 /** @preserve Temploo.js: Tiny framework for HTML template
- * version: 0.1.0
- * By Ali Najafizadeh, http://morezilla.net
+ * version: 0.1.1
+ *
+ * NOTE: Make sure your document's has <meta charset="utf-8">
+ *
+ * By Ali Najafizadeh
  * MIT Licensed.
  */
 (function () {
     'use strict';
 
-    var temploo;
+    var temploo,
+        //The folloing varibales are used for convert function.
+        CHAR_RETURN = "¼",
+        CHAR_ENTER = "½",
+        CHAR_TAB = "¾",
+        CONVERT_REFEX = /[\r\n\t¼½¾]/g;
 
     function replace(str, arg1, arg2) {
         return str.replace(arg1, arg2);
     }
 
     /**
-     * makeFlatString
-     * removes tabs, and enter chars and trim the string.
+     * convert
+     * this function convert special characters to ecoded_one and convert it back once it's done.
+     *
+     * NOTE: in order to make this function to work, the document needs to be utf-8 because this function
+     * is using the some special chars.
      *
      * @param str: string
      * @returns {string}
      */
-    function makeStringFlat(str) {
-        var trimTokens = str.split(/[\t\r\n]/g);
-        for(var i = 0; i < trimTokens.length; i++) {
-            trimTokens[i] = trimTokens[i].trim();
-        }
-        str = trimTokens.join('');
-        return replace(str, /[\t\r\n]/g, ' ');
+    function convert(str) {
+        return replace(str, CONVERT_REFEX, function (value) {
+            switch (value) {
+                case CHAR_ENTER:
+                    return "\n";
+                case CHAR_RETURN:
+                    return "\r";
+                case CHAR_TAB:
+                    return "\t";
+                case "\r":
+                    return CHAR_RETURN;
+                case "\n":
+                    return CHAR_ENTER;
+                case "\t":
+                    return CHAR_TAB;
+                default:
+                    return value;
+            }
+
+        });
     }
 
     /**
@@ -68,14 +92,15 @@
     temploo = function (str) {
         var fn;
 
-        str = makeStringFlat(str);
+        str = convert(str);
         str = makeFunctionString(str);
         str = convertAllValues(str);
         str = convertAllLogicStatements(str);
 
         fn = new Function(str);
         return function (model) {
-            return fn.call(model);
+            var result = fn.call(model);
+            return convert(result);
         };
     };
 

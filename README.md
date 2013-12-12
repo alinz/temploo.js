@@ -9,6 +9,9 @@ Usage
 --
 Just add `temploo.js` into your HTML document.
 
+make sure document has the following tag <meta charset="utf-8">
+
+
 ```html
 <script id="test1" type="text/template">
     <div id="<%=this.id%>">
