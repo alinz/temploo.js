@@ -25,9 +25,6 @@ Template.prototype.compile = function (str) {
 
     fn = new Function(str);
     return function (model) {
-        if (model.summary && model.summary.length > 0) {
-            console.log(JSON.stringify(model, null, 4));
-        }
         var result = fn.call(model);
         return that.fromTemplate(result);
     };
